@@ -2,6 +2,7 @@ import { server as WebSocketServer } from "websocket";
 import http from "http";
 import uniqueid from "lodash.uniqueid";
 import express from "express";
+import path from "path";
 
 const app = new express();
 const PORT = 3001;
@@ -15,13 +16,8 @@ const sendToAllClients = message => {
 };
 
 // webhook sending specific action to the front end
-app.get("/route_of_doom", (_, res) => {
-  res.send("You just destroyed the app!");
-  sendToAllClients(
-    JSON.stringify({
-      data: { type: "action", payload: { type: "DESTROY_EVERYTHING" } }
-    })
-  );
+app.get("/", (_, res) => {
+  res.sendFile(path.join(__dirname + "/index.html"));
 });
 
 //create server
